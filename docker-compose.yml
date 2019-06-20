@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.0
+    ports:
+      - 9200:9200
+    environment:
+      discovery.type: single-node
+      cluster.routing.allocation.disk.threshold_enabled: "false"
+    networks:
+      logmetric:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.3.0
+    ports:
+      - 5601:5601
+    networks:
+      logmetric:
+
+  influxdb:
+    image: influxdb
+    ports:
+      - 8086:8086
+    networks:
+      logmetric:
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    networks:
+      logmetric:
+      
+
+networks:
+  logmetric:
+    driver: 'bridge'
